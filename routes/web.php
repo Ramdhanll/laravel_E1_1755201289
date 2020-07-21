@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::get('mhs', 'MahasiswaController@index');
+Route::get('list_mhs', 'MahasiswaController@list_mhs')->name('datatablesmhs');

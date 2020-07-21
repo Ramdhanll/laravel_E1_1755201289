@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use DataTables;
+use App\Mahasiswa;
 class MahasiswaController extends Controller
 {
     /**
@@ -24,6 +25,12 @@ class MahasiswaController extends Controller
     public function create()
     {
         //
+    }
+
+    public function list_mhs() {
+        return DataTables::of(Mahasiswa::all())
+        ->addIndexColumn()
+                ->toJson();
     }
 
     /**
