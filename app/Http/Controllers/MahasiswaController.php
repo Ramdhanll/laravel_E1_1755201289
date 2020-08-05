@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Prodi;
 use DataTables;
 use App\Mahasiswa;
+use Illuminate\Http\Request;
+
 class MahasiswaController extends Controller
 {
     /**
@@ -22,15 +24,22 @@ class MahasiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $prodi = Prodi::all();
+        return view('mahasiswa.create', compact('prodi'));
     }
 
     public function list_mhs() {
-        return DataTables::of(Mahasiswa::all())
+        $mahasiswa = Mahasiswa::with('Prodi')->get();
+        return DataTables::of($mahasiswa)
         ->addIndexColumn()
-                ->toJson();
+        ->addColumn('action', function ($mahasiswa) {
+            $action = '<a href="/mhs/edit/'.$mahasiswa->nim.'" class="text-warning mr-1"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+            $action .= '| <a href="/mhs/delete/'.$mahasiswa->id.'" class="text-danger mr-1"><i class="glyphicon glyphicon-edit"></i> Hapus</a>';
+            
+            return $action;
+        })
+        ->toJson();
     }
 
     /**
@@ -41,7 +50,15 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nim'   => 'required',
+            'nama_lengkap' => 'required',
+            'prodi_id' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        Mahasiswa::create($request->all());
+        return redirect('/mhs')->with(['success' => 'Data berhasil ditambah']);
     }
 
     /**
@@ -63,7 +80,9 @@ class MahasiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $prodi = Prodi::all();
+        $mhs = Mahasiswa::where('nim', $id)->first();
+        return view('mahasiswa.edit', compact('mhs', 'prodi'));
     }
 
     /**
@@ -75,7 +94,16 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nim'   => 'required',
+            'nama_lengkap' => 'required',
+            'prodi_id' => 'required',
+            'alamat' => 'required',
+          ]);
+          $mahasiswa = Mahasiswa::find($id);
+          $mahasiswa->update($request->all());
+    
+          return redirect('/mhs')->with(['success' => 'Data berhasil diubah']);
     }
 
     /**
@@ -86,6 +114,8 @@ class MahasiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Mahasiswa::destroy($id);
+
+        return redirect('/mhs')->with(['success' => 'Data berhasil dihapus']);
     }
 }

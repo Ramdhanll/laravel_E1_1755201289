@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMahasiswaTable extends Migration
+class CreateProdiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMahasiswaTable extends Migration
      */
     public function up()
     {
-        Schema::create('mahasiswa', function (Blueprint $table) {
+        Schema::create('prodi', function (Blueprint $table) {
             $table->id();
-            $table->string('nim', 13);
-            $table->string('nama_lengkap', 150);
-            $table->string('prodi_id')->constrained()->onDelete('cascade');
-            $table->text('alamat');
+            $table->string('kode_prodi');
+            $table->string('nama_prodi');
+            $table->string('kaprodi');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateMahasiswaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mahasiswa');
+        Schema::dropIfExists('prodi');
     }
 }
