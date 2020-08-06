@@ -32,3 +32,12 @@ Route::get('prodi/edit/{kode_prodi}', 'ProdiController@edit')->name('prodi.edit'
 Route::put('prodi/update/{id}', 'ProdiController@update')->name('prodi.update');
 Route::get('prodi/delete/{id}', 'ProdiController@destroy')->name('prodi.destroy');
 Route::get('list_prodi', 'ProdiController@list_prodi')->name('datatablesprodi');
+
+Route::get('mata-kuliah', 'MatkulController@index');
+Route::get('mata-kuliah/create', 'MatkulController@create')->name('mata-kuliah.create');
+Route::post('mata-kuliah', 'MatkulController@store')->name('mata-kuliah.store');
+Route::get('mata-kuliah/edit/{kode_matkul}', 'MatkulController@edit')->name('mata-kuliah.edit');
+Route::put('mata-kuliah/update/{id}', 'MatkulController@update')->name('mata-kuliah.update');
+Route::get('mata-kuliah/delete/{kode_matkul}', 'MatkulController@destroy')->name('mata-kuliah.destroy');
+Route::get('list_matkul', 'MatkulController@list_matkul')->name('datatablesmatkul');
+

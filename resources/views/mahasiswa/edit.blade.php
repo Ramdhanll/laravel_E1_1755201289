@@ -24,7 +24,7 @@
   <select style="width: 300px" name="prodi_id" id="prodi_id" class="form-control @error('prodi_id') is-invalid @enderror">
     <option value="" selected disabled>Pilih Prodi</option>
     @foreach ($prodi as $item)
-    <option value="{{ $item }}" {{ $mhs->prodi->kode_prodi == $item->kode_prodi ? 'selected' : null }}> {{$item->nama_prodi}} </option>
+    <option value="{{ $item->kode_prodi }}" {{ $mhs->prodi->kode_prodi == $item->kode_prodi ? 'selected' : null }}> {{$item->nama_prodi}} </option>
     @endforeach
   </select>
   @error('prodi_id')
